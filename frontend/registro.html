@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear cuenta</title>
+    <link rel="stylesheet" href="registro.css">
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>Crear cuenta</h1>
+
+        <input type="text" id="username" placeholder="Nombre de usuario">
+        <input type="email" id="email" placeholder="Correo electrónico">
+        <input type="password" id="password" placeholder="Contraseña">
+        <input type="password" id="confirmar" placeholder="Confirmar contraseña">
+
+        <p id="error" style="color:#f87171; font-size:13px; display:none;"></p>
+
+        <button class="btn" onclick="registro()">Crear cuenta</button>
+
+        <p class="link">
+            ¿Ya tienes cuenta?<br>
+            <a href="login.html">Iniciar sesión</a>
+        </p>
+
+    </div>
+
+<script>
+    async function registro() {
+        const username = document.getElementById('username').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const confirmar = document.getElementById('confirmar').value;
+        const error = document.getElementById('error');
+
+        // Validar que las contraseñas coincidan
+        if (password !== confirmar) {
+            error.textContent = 'Las contraseñas no coinciden';
+            error.style.display = 'block';
+            return;
+        }
+
+        // Validar campos vacíos
+        if (!username || !email || !password) {
+            error.textContent = 'Todos los campos son obligatorios';
+            error.style.display = 'block';
+            return;
+        }
+
+        try {
+            const res = await fetch('http://localhost:3000/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, email, password })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                error.textContent = data.message;
+                error.style.display = 'block';
+                return;
+            }
+
+            // Guardar token y usuario
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+
+            // Redirigir al inicio
+            window.location.href = 'index.html';
+
+        } catch (err) {
+            error.textContent = 'Error de conexión con el servidor';
+            error.style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>

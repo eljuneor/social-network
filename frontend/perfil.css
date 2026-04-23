@@ -1,0 +1,81 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: white;
+    margin: 0;
+}
+
+/* HEADER */
+.header {
+    padding: 20px 40px;
+}
+
+/* TOP BAR */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* BUSCADOR */
+.search {
+    width: 60%;
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+    background: rgba(255,255,255,0.05);
+    color: white;
+}
+
+/* BOTÓN PERFIL */
+.perfil-btn {
+    background: #3b82f6;
+    padding: 8px 15px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: white;
+}
+
+/* PERFIL */
+.perfil {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.foto-perfil {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #3b82f6, #9333ea);
+    border-radius: 50%;
+    margin: auto;
+}
+
+.perfil h2 {
+    margin: 10px 0 5px;
+}
+
+.nombre {
+    color: #cbd5f5;
+    font-size: 14px;
+}
+
+/* GALERÍA */
+.galeria {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+/* POSTS */
+.post {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #3b82f6, #9333ea);
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.post:hover {
+    transform: scale(1.05);
+}

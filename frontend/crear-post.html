@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Post</title>
+    <link rel="stylesheet" href="crear-post.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Crear post</h2>
+
+    <!-- TEXTO -->
+    <label class="label">¿Qué estás pensando?</label>
+    <textarea id="content" placeholder="Escribe aquí..."></textarea>
+
+    <!-- RADIO -->
+    <label class="label">Contenido extra</label>
+    <div class="opciones">
+        <label>
+            <input type="radio" id="radioLink">
+            Link video/imagen (opcional)
+        </label>
+    </div>
+
+    <!-- INPUT LINK -->
+    <input type="text" id="media_url" placeholder="Pega aquí el link..." style="display:none;">
+
+    <!-- TAGS -->
+    <label class="label">Tags</label>
+    <input type="text" id="tags" placeholder="#fiesta #amigos #escuela">
+
+    <p id="error" style="color:#f87171; font-size:13px; display:none;"></p>
+    <p id="exito" style="color:#4ade80; font-size:13px; display:none;"></p>
+
+    <!-- BOTÓN -->
+    <button class="btn" onclick="crearPost()">Crear post</button>
+
+</div>
+
+<script>
+    const radio = document.getElementById('radioLink');
+    const linkInput = document.getElementById('media_url');
+    radio.addEventListener('change', () => {
+        linkInput.style.display = 'block';
+    });
+
+    async function crearPost() {
+        const content = document.getElementById('content').value.trim();
+        const media_url = document.getElementById('media_url').value.trim();
+        const tagsRaw = document.getElementById('tags').value.trim();
+        const error = document.getElementById('error');
+        const exito = document.getElementById('exito');
+
+        error.style.display = 'none';
+        exito.style.display = 'none';
+
+        if (!content) {
+            error.textContent = 'El contenido del post es obligatorio';
+            error.style.display = 'block';
+            return;
+        }
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = 'login.html';
+            return;
+        }
+
+        const tags = tagsRaw
+            .split(' ')
+            .map(t => t.replace('#', '').trim())
+            .filter(t => t !== '');
+
+        try {
+            const res = await fetch('http://localhost:3000/api/posts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ content, media_url, tags })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                error.textContent = data.message;
+                error.style.display = 'block';
+                return;
+            }
+
+            exito.textContent = '¡Post creado exitosamente!';
+            exito.style.display = 'block';
+
+            document.getElementById('content').value = '';
+            document.getElementById('media_url').value = '';
+            document.getElementById('tags').value = '';
+
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1500);
+
+        } catch (err) {
+            error.textContent = 'Error de conexión con el servidor';
+            error.style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>
