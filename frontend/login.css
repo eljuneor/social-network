@@ -60,3 +60,21 @@ input {
     color: #3b82f6;
     text-decoration: none;
 }
+* {
+    box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+    body {
+        align-items: flex-start;
+        padding: 40px 0;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .container {
+        width: 90%;
+        padding: 28px 20px;
+        margin: 0 auto;
+    }
+}

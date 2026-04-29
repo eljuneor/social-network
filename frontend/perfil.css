@@ -79,3 +79,27 @@ body {
 .post:hover {
     transform: scale(1.05);
 }
+* {
+    box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+    .header {
+        padding: 15px;
+    }
+
+    .search {
+        width: 55%;
+    }
+
+    .galeria {
+        flex-wrap: wrap;
+        padding: 15px;
+        justify-content: center;
+    }
+
+    .post {
+        width: 85px;
+        height: 85px;
+    }
+}

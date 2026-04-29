@@ -80,3 +80,26 @@ input {
 .btn:hover {
     transform: scale(1.05);
 }
+
+* {
+    box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+    body {
+        align-items: flex-start;
+        padding: 20px 0;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .container {
+        width: 90%;
+        padding: 24px 20px;
+        margin: 0 auto;
+    }
+
+    textarea {
+        height: 120px;
+    }
+}
