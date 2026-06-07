@@ -39,17 +39,19 @@
     const user = JSON.parse(localStorage.getItem('user'));
 
     // Header user
-    const headerUser = document.getElementById('header-user');
-    if (user) {
+ const headerUser = document.getElementById('header-user');
+if (user) {
     headerUser.innerHTML = `
-        <span style="font-size:13px; color:#cbd5f5;">Bienvenido, @${user.username}</span>
-        <a href="perfil.html" class="avatar-btn" title="${user.username}">
-            ${user.username.charAt(0).toUpperCase()}
-        </a>
+        <div style="display:flex; align-items:center; gap:10px;">
+            <span style="font-size:13px; color:#cbd5f5;">Bienvenido, @${user.username}</span>
+            <a href="perfil.html" class="avatar-btn" title="${user.username}">
+                ${user.username.charAt(0).toUpperCase()}
+            </a>
+        </div>
     `;
-    } else {
-        headerUser.innerHTML = `<a href="login.html" class="btn-action">Iniciar sesión</a>`;
-    }
+} else {
+    headerUser.innerHTML = `<a href="login.html" class="btn-action">Iniciar sesión</a>`;
+}
 
    async function cargarPosts() {
     const grid = document.getElementById('grid');
