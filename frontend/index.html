@@ -41,11 +41,12 @@
     // Header user
     const headerUser = document.getElementById('header-user');
     if (user) {
-        headerUser.innerHTML = `
-            <a href="perfil.html" class="avatar-btn" title="${user.username}">
-                ${user.username.charAt(0).toUpperCase()}
-            </a>
-        `;
+    headerUser.innerHTML = `
+        <span style="font-size:13px; color:#cbd5f5;">Bienvenido, @${user.username}</span>
+        <a href="perfil.html" class="avatar-btn" title="${user.username}">
+            ${user.username.charAt(0).toUpperCase()}
+        </a>
+    `;
     } else {
         headerUser.innerHTML = `<a href="login.html" class="btn-action">Iniciar sesión</a>`;
     }

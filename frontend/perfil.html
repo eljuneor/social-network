@@ -22,6 +22,7 @@
         <div class="foto-perfil" id="avatar"></div>
         <h2 id="username">Cargando...</h2>
         <p class="nombre" id="email"></p>
+        <p class="nombre" id="post-count"></p>
     </section>
 
     <!-- GALERÍA -->
@@ -45,6 +46,8 @@
     document.getElementById('email').textContent = user.email;
 
     async function cargarMisPosts() {
+        const misPosts = posts.filter(p => p.author_id === user.id);
+document.getElementById('post-count').textContent = misPosts.length + ' posts';
         const galeria = document.getElementById('galeria');
 
         try {
