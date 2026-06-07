@@ -9,12 +9,13 @@
 <body>
 
     <!-- HEADER -->
-    <header class="header">
-        <div class="top-bar">
-            <input type="text" placeholder="Buscar algo..." class="search">
-            <a href="index.html" class="perfil-btn">Explorar</a>
-        </div>
-    </header>
+<header class="header">
+    <div class="top-bar">
+        <input type="text" placeholder="Buscar algo..." class="search">
+        <a href="index.html" class="perfil-btn">Explorar</a>
+        <button class="btn-cerrar" onclick="cerrarSesion()">Cerrar sesión</button>
+    </div>
+</header>
 
     <!-- PERFIL -->
     <section class="perfil">
@@ -27,6 +28,12 @@
     <section class="galeria" id="galeria"></section>
 
 <script>
+
+    function cerrarSesion() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = 'login.html';
+}
     const token = localStorage.getItem('token');
     const user = JSON.parse(localStorage.getItem('user'));
 

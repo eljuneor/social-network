@@ -64,5 +64,13 @@ const unlikePost = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
-module.exports = { createPost, getPosts, likePost, unlikePost };
+const getMisLikes = async (req, res) => {
+  try {
+    const likes = await Like.find({ user_id: req.user._id });
+    const postIds = likes.map(l => l.post_id.toString());
+    res.json(postIds);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+module.exports = { createPost, getPosts, likePost, unlikePost, getMisLikes };
