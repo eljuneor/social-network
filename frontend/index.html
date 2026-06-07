@@ -51,19 +51,31 @@
         headerUser.innerHTML = `<a href="login.html" class="btn-action">Iniciar sesión</a>`;
     }
 
-    async function cargarPosts() {
-        const grid = document.getElementById('grid');
+   async function cargarPosts() {
+    const grid = document.getElementById('grid');
 
-        try {
-            const res = await fetch('https://social-network-production-8a9a.up.railway.app/api/posts');
-            const posts = await res.json();
+    try {
+        // Traer posts y likes del usuario al mismo tiempo
+        const [resPosts, resLikes] = await Promise.all([
+            fetch('https://social-network-production-8a9a.up.railway.app/api/posts'),
+            token
+                ? fetch('https://social-network-production-8a9a.up.railway.app/api/posts/mis-likes', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                  })
+                : Promise.resolve(null)
+        ]);
 
-            if (!res.ok || posts.length === 0) {
-                grid.innerHTML = '<p style="color:#cbd5f5; padding:20px;">No hay posts aún.</p>';
-                return;
-            }
+        const posts = await resPosts.json();
+        const misLikes = resLikes ? await resLikes.json() : [];
 
-            grid.innerHTML = posts.map(post => `
+        if (!resPosts.ok || posts.length === 0) {
+            grid.innerHTML = '<p style="color:#cbd5f5; padding:20px;">No hay posts aún.</p>';
+            return;
+        }
+
+        grid.innerHTML = posts.map(post => {
+            const yaLiked = misLikes.includes(post._id);
+            return `
                 <div class="post-card" onclick="window.location.href='post-detalle.html?id=${post._id}'">
                     ${post.media_url
                         ? `<div class="img"><img src="${post.media_url}" alt="media"></div>`
@@ -77,18 +89,19 @@
                         <p class="post-content">${post.content}</p>
                         <p class="post-author">@${post.author_username}</p>
                         <div class="post-footer">
-                            <button class="like-btn" onclick="toggleLike(event, '${post._id}', this)">
+                            <button class="like-btn ${yaLiked ? 'liked' : ''}" onclick="toggleLike(event, '${post._id}', this)">
                                 ❤️ <span class="like-count">${post.likes_count}</span>
                             </button>
                         </div>
                     </div>
                 </div>
-            `).join('');
+            `;
+        }).join('');
 
-        } catch (err) {
-            grid.innerHTML = '<p style="color:#f87171; padding:20px;">Error al cargar los posts.</p>';
-        }
+    } catch (err) {
+        grid.innerHTML = '<p style="color:#f87171; padding:20px;">Error al cargar los posts.</p>';
     }
+}
 
     async function toggleLike(e, postId, btn) {
         e.stopPropagation();
