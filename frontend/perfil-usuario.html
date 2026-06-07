@@ -9,18 +9,21 @@
 <body>
 
     <!-- HEADER -->
-    <header class="header">
-        <div class="header-top">
-            <div class="logo">
-                <div class="logo-placeholder">LOGO</div>
-                <div class="search-wrap">
-                    <input type="text" id="busqueda" placeholder="Buscar posts..." class="search">
-                    <button class="btn-action" onclick="buscar()">Buscar</button>
-                </div>
+<header class="header">
+    <div class="header-top">
+        <div class="logo">
+            <img src="zlogo.png" alt="logo" class="logo-img">
+            <div class="search-wrap">
+                <input type="text" id="busqueda" placeholder="Buscar posts..." class="search">
+                <button class="btn-action" onclick="buscar()">Buscar</button>
             </div>
-            <div id="header-user"></div>
         </div>
-    </header>
+        <div style="display:flex; align-items:center; gap:10px;">
+            <div id="header-user"></div>
+            <button class="btn-cerrar" onclick="cerrarSesion()">Cerrar sesión</button>
+        </div>
+    </div>
+</header>
 
     <!-- PERFIL -->
     <section class="perfil">
@@ -60,7 +63,7 @@
         }
 
         try {
-            const res = await fetch('https://social-network-production-59ef.up.railway.app/api/posts');
+            const res = await fetch('https://social-network-production-8a9a.up.railway.app/api/posts');
             const posts = await res.json();
 
             const misPosts = posts.filter(p => p.author_id === authorId);
@@ -111,6 +114,12 @@
     });
 
     cargarPerfil();
+
+    function cerrarSesion() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = 'login.html';
+}
 </script>
 
 </body>

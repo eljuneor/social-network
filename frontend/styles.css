@@ -209,6 +209,12 @@ body {
     color: #f87171;
 }
 
+.logo-img {
+    height: 48px;
+    width: auto;
+    
+}
+
 /* RESPONSIVIDAD */
 @media (max-width: 900px) {
     .grid {

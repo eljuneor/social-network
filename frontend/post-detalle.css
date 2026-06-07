@@ -207,6 +207,13 @@ body {
     border-color: #f87171;
 }
 
+
+.logo-img {
+    height: 48px;
+    width: auto;
+
+}
+
 /* RESPONSIVIDAD */
 @media (max-width: 600px) {
     .header {

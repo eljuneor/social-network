@@ -196,6 +196,29 @@ body {
     color: #94a3b8;
 }
 
+.logo-img {
+    height: 48px;
+    width: auto;
+ 
+}
+
+.btn-cerrar {
+    padding: 9px 18px;
+    border: none;
+    border-radius: 20px;
+    background: #ef4444;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s;
+    white-space: nowrap;
+}
+
+.btn-cerrar:hover {
+    transform: scale(1.05);
+}
+
 /* RESPONSIVIDAD */
 @media (max-width: 900px) {
     .galeria {

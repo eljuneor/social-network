@@ -13,7 +13,7 @@
         <div class="header-top">
             <!-- LOGO -->
             <div class="logo">
-                <div class="logo-placeholder">LOGO</div>
+                <img src="zlogo.png" alt="logo" class="logo-img">
                 <h1>Explorar Posts</h1>
             </div>
 
@@ -54,7 +54,7 @@
         const grid = document.getElementById('grid');
 
         try {
-            const res = await fetch('https://social-network-production-59ef.up.railway.app/api/posts');
+            const res = await fetch('https://social-network-production-8a9a.up.railway.app/api/posts');
             const posts = await res.json();
 
             if (!res.ok || posts.length === 0) {
@@ -102,7 +102,7 @@
         const liked = btn.classList.contains('liked');
 
         try {
-            const res = await fetch(`https://social-network-production-59ef.up.railway.app/api/posts/${postId}/like`, {
+            const res = await fetch(`https://social-network-production-8a9a.up.railway.app/api/posts/${postId}/like`, {
                 method: liked ? 'DELETE' : 'POST',
                 headers: { 'Authorization': `Bearer ${token}` }
             });

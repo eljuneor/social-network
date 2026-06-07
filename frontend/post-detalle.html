@@ -11,7 +11,7 @@
     <header class="header">
         <div class="header-top">
             <div class="logo">
-                <div class="logo-placeholder">LOGO</div>
+                <img src="zlogo.png" alt="logo" class="logo-img">
                 <a href="index.html" class="back-link">← Volver</a>
             </div>
             <div id="header-user"></div>
@@ -51,7 +51,7 @@
         }
 
         try {
-            const res = await fetch('https://social-network-production-59ef.up.railway.app/api/posts');
+            const res = await fetch('https://social-network-production-8a9a.up.railway.app/api/posts');
             const posts = await res.json();
             const post = posts.find(p => p._id === postId);
 
@@ -121,7 +121,7 @@
         const liked = btn.classList.contains('liked');
 
         try {
-            const res = await fetch(`https://social-network-production-59ef.up.railway.app/api/posts/${postId}/like`, {
+            const res = await fetch(`https://social-network-production-8a9a.up.railway.app/api/posts/${postId}/like`, {
                 method: liked ? 'DELETE' : 'POST',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
