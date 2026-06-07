@@ -9,13 +9,21 @@
 <body>
 
     <!-- HEADER -->
-<header class="header">
-    <div class="top-bar">
-        <input type="text" placeholder="Buscar algo..." class="search">
-        <a href="index.html" class="perfil-btn">Explorar</a>
-        <button class="btn-cerrar" onclick="cerrarSesion()">Cerrar sesión</button>
-    </div>
-</header>
+    <header class="header">
+        <div class="header-top">
+            <div class="logo">
+                <img src="zlogo.png" alt="logo" class="logo-img">
+                <div class="search-wrap">
+                    <input type="text" id="busqueda" placeholder="Buscar posts..." class="search">
+                    <button class="btn-action" onclick="buscar()">Buscar</button>
+                </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+                <div id="header-user"></div>
+                <button class="btn-cerrar" onclick="cerrarSesion()">Cerrar sesión</button>
+            </div>
+        </div>
+    </header>
 
     <!-- PERFIL -->
     <section class="perfil">
@@ -29,12 +37,6 @@
     <section class="galeria" id="galeria"></section>
 
 <script>
-    function cerrarSesion() {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        window.location.href = 'login.html';
-    }
-
     const token = localStorage.getItem('token');
     const user = JSON.parse(localStorage.getItem('user'));
 
@@ -42,8 +44,17 @@
         window.location.href = 'login.html';
     }
 
+    // Header user
+    const headerUser = document.getElementById('header-user');
+    headerUser.innerHTML = `
+        <a href="perfil.html" class="avatar-btn" title="${user.username}">
+            ${user.username.charAt(0).toUpperCase()}
+        </a>
+    `;
+
     document.getElementById('username').textContent = '@' + user.username;
     document.getElementById('email').textContent = user.email;
+    document.getElementById('avatar').textContent = user.username.charAt(0).toUpperCase();
 
     async function cargarMisPosts() {
         const galeria = document.getElementById('galeria');
@@ -57,16 +68,26 @@
             document.getElementById('post-count').textContent = misPosts.length + ' posts';
 
             if (misPosts.length === 0) {
-                galeria.innerHTML = '<p style="color:#cbd5f5;">Aún no tienes publicaciones.</p>';
+                galeria.innerHTML = '<p style="color:#cbd5f5; text-align:center; padding:20px;">Aún no tienes publicaciones.</p>';
                 return;
             }
 
             galeria.innerHTML = misPosts.map(post => `
-                <div class="post" title="${post.content}">
+                <div class="post-card" onclick="window.location.href='post-detalle.html?id=${post._id}'">
                     ${post.media_url
-                        ? `<img src="${post.media_url}" alt="media" style="width:100%; height:100%; object-fit:cover; border-radius:10px;">`
-                        : ''
+                        ? `<div class="img"><img src="${post.media_url}" alt="media"></div>`
+                        : post.tags && post.tags.length > 0
+                            ? `<div class="img tag-img">
+                                ${post.tags.map(t => `<span class="tag">#${t}</span>`).join('')}
+                               </div>`
+                            : `<div class="img"></div>`
                     }
+                    <div class="post-body">
+                        <p class="post-content">${post.content}</p>
+                        <div class="post-footer">
+                            <span class="like-count">❤️ ${post.likes_count} likes</span>
+                        </div>
+                    </div>
                 </div>
             `).join('');
 
@@ -75,7 +96,25 @@
         }
     }
 
+    function buscar() {
+        const texto = document.getElementById('busqueda').value.trim();
+        if (texto) {
+            window.location.href = `posts.html?q=${encodeURIComponent(texto)}`;
+        }
+    }
+
+    document.getElementById('busqueda').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') buscar();
+    });
+
+    function cerrarSesion() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.href = 'login.html';
+    }
+
     cargarMisPosts();
 </script>
+
 </body>
 </html>
